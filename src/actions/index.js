@@ -32,8 +32,12 @@ export function getRepoThunk() {
 
 export function getMenuThunk() {
   return function(dispatch, getState) {
+    const { restaurantInfo } = getState()
+    let url = 'http://crimson-voice-2981.getsandbox.com/item/' + restaurantInfo.restaurantId;
+    console.log('getMenuFetch', restaurantInfo)
+    console.log('getMenuFetch->url', url)
     fetch(
-      'http://crimson-voice-2981.getsandbox.com/menu',
+      url,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
@@ -42,7 +46,7 @@ export function getMenuThunk() {
     .then(e => e.json())
       .then(function(response){
         console.log('fetch resp', response);
-        var arr = response.menu;
+        var arr = response.menus;
         dispatch(getMenus(arr))
       })
       .catch((error) => {
@@ -58,3 +62,18 @@ export function repoSelected(repo){
     payload: repo
   }
 }
+
+export function restaurantScanned(restaurantInfo) {
+  return {
+    type: 'RESTAURANT_SCANNED',
+    payload: restaurantInfo
+  }
+}
+
+export function orderStart(orderInfo) {
+  return {
+    type: 'START_ORDER',
+    payload: orderInfo
+  }
+}
+
