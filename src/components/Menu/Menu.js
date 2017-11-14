@@ -15,11 +15,20 @@ class Menu extends React.Component {
   }
 
   render() {
+    if (this.props.menus.hasError) {
+      return (
+        <Container style={{ backgroundColor: '#FFF' }}>
+          <Content style={{paddingTop: 20}}>
+            <Text style={{textAlign: 'center'}}>Please go back to Home and scan any restaurant's QR code</Text>
+          </Content>
+        </Container>
+      )
+    }
     return (
       <Container style={{ backgroundColor: '#FFF' }}>
         <Content>
           <List 
-            dataArray={this.props.menus}
+            dataArray={this.props.menus.menus}
             renderRow={(item) =>
             <ListItem icon>
               <Left>
