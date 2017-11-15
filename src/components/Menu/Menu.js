@@ -6,33 +6,35 @@ import { bindActionCreators } from 'redux';
 // Redux Thunk
 import { getMenus, getMenuThunk } from '../../actions/index';
 // React Native Components
-import { StatusBar } from "react-native";
+import { View } from "react-native";
 // Native Base UI Components
-import { Container, List, ListItem, Header, Title, Left, Icon, Right, Button, Body, Content,Text, Card, CardItem } from "native-base";
+import { Container, Header, List, Title, Left, Icon, Right, Button, Body, Content, Spinner } from "native-base";
+// Custom Component
+import MenuItem from './MenuItem'
+
 class Menu extends React.Component {
   componentWillMount() {
     this.props.getMenuThunk()
+  }
+
+  getContent() {
+    if (this.props.menus.length === 0) {
+      return <Spinner color='blue' />
+    }
+    return (
+      <List 
+        dataArray={this.props.menus}
+        renderRow={(item) => 
+          <MenuItem itemInfo={item} />}
+      />
+    )
   }
 
   render() {
     return (
       <Container style={{ backgroundColor: '#FFF' }}>
         <Content>
-          <List 
-            dataArray={this.props.menus}
-            renderRow={(item) =>
-            <ListItem icon>
-              <Left>
-                <Icon name="pizza" style={{ color: 'grey'}}/>
-              </Left>
-              <Body>
-                <Text>{item.name}</Text>
-              </Body>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </ListItem>}
-          />
+          { this.getContent() }    
         </Content>
       </Container>
     );
@@ -58,7 +60,8 @@ Menu.navigationOptions = ({ navigation }) => ({
 
 function mapStateToProps(state){
   return{
-    menus : state.menus
+    menus : state.menus,
+    data: state.data
   };
 }
 function matchDispatchToProps(dispatch){

@@ -6,5 +6,5 @@ export default function(state=defaultState, action){
       console.log(gitMenus, 'gitMenus');
       return gitMenus;
   }
-  return defaultState;
+  return state;
 }
