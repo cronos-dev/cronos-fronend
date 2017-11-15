@@ -59,16 +59,29 @@ class HomeScreen extends React.Component {
         </Header>
         <Content>
           { qrComponent }
+          <View>
+            <Button info style={{width: 100}}
+              onPress={() => this._handleManualCodeRead(2)}>
+              <Text style={{textAlign: 'center'}}> Restaurant 2 </Text>
+            </Button>
+            <Button warning style={{width: 100}}
+              onPress={() => this._handleManualCodeRead(3)}>
+              <Text style={{textAlign: 'center'}}> Restaurant 3 </Text>
+            </Button>
+          </View>
         </Content>
       </Container>
     );
+  }
+  
+  _handleManualCodeRead = (restaurantId) => {
+    this._handleBarCodeRead({type: '', data: restaurantId + ':2'});
   }
 
   _handleBarCodeRead = ({ type, data }) => {
     console.log('Bar code has been scanned!', data)
     let restaurantId = data.split(':')[0];
     let tableId = data.split(':')[1];
-    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     this.props.restaurantScanned({
       restaurantId: restaurantId,
       tableId: tableId
@@ -80,9 +93,7 @@ class HomeScreen extends React.Component {
 
 
 function mapStateToProps(state){
-  return{
-    restaurantInfo : state.restaurantInfo
-  };
+  return{};
 }
 function matchDispatchToProps(dispatch){
   return bindActionCreators({
