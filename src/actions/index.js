@@ -42,10 +42,8 @@ export function getRepoThunk() {
 
 export function getMenuThunk() {
   return function(dispatch, getState) {
-    const { restaurantInfo } = getState()
-    let url = 'http://crimson-voice-2981.getsandbox.com/item/' + restaurantInfo.restaurantId;
-    console.log('getMenuFetch', restaurantInfo)
-    console.log('getMenuFetch->url', url)
+    const { data } = getState()
+    let url = 'http://crimson-voice-2981.getsandbox.com/item/' + data.restaurantId;
     fetch(
       url,
       {
@@ -86,6 +84,20 @@ export function orderStart(orderInfo) {
   return {
     type: 'START_ORDER',
     payload: orderInfo
+  }
+}
+
+export function addItemQuantity(addItemInfo) {
+  return {
+    type: 'ADD_ITEM_TO_ORDER',
+    payload: addItemInfo
+  }
+}
+
+export function removeItemQuantity(removeItemInfo) {
+  return {
+    type: 'REMOVE_ITEM_FROM_ORDER',
+    payload: removeItemInfo
   }
 }
 
